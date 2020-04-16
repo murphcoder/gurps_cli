@@ -1,4 +1,4 @@
-class Book
+class Books
   
   attr_accessor :title, :edition, :print_status, :page_url, :description
   @@all = []
