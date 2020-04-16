@@ -6,11 +6,10 @@ class Scraper
   
   attr_reader :topics, :series, :books
   
-  @topics = []
-  @series = []
-  @books = []
-  
   def initialize
+    @topics = []
+    @series = []
+    @books =[]
     html = open('http://www.sjgames.com/gurps/books/')
     page = Nokogiri::HTML(html)
     topics_table = page.css("table[border=0]").css("tr")[0]
@@ -23,7 +22,7 @@ class Scraper
     ## series_table.css("a").text extracts name of topic
     ## series_table.css("a")["href"] extracts link to book page
     series_table.css("a").each do |series|
-      @series << {:name => series.text, :link => topic["href"]}
+      @series << {:name => series.text, :link => series["href"]}
     end
     book_table = page.css("div.wblist")
     ## book_table.css("a").text extracts name of topic
