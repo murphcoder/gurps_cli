@@ -9,7 +9,7 @@ class Scraper
   def initialize
     @topics = []
     @series = []
-    @books =[]
+    @books = []
     html = open('http://www.sjgames.com/gurps/books/')
     page = Nokogiri::HTML(html)
     topics_table = page.css("table[border=0]").css("tr")[0]
@@ -36,30 +36,43 @@ class Scraper
     ## code.css("a").first["href"] determines page_url
     ## code.css("a")[1]["title"] determines print status
 
-    book = book_table.xpath("//h3[1]/following::*") & book_table.xpath("//br[1]/preceding::*")
-    @books << get_book_data(book)
+    book_code = book_table.xpath("//h3[1]/following::*") & book_table.xpath("//br[1]/preceding::*")
+    @books << get_book_data(book_code)
     count = 1
-
+    until book_code.length == 0 do
+      book_code = book_table.xpath("//h3[1]/following::br[#{count}]/following::*") & book_table.xpath("//h3[1]/following::br[#{count+1}]/preceding::*")
+      book_data = get_book_data(book_code)
+      if book_data != nil && book_data[:title].length != 1
+        @books << book_data
+      end
+      count += 1
+    end
     binding.pry
   end
 
 end
 
 def get_book_data(book)
-  l_title = book.css("a").first.text
-  l_edition = book.css("span").text
-  print = book.css("a")[1].text
-  if print == "W23-D"
-    l_print_status = "Digital"
-  elsif print == "W23" && book.css[2]["title"] == "W23-D"
-    l_print_status = "Both"
-  elsif print == "W23" && !book.css[2]["title"] == "W23-D"
-    l_print_status = "Physical"
-  elsif print == nil
-    l_print_status = "Out Of Print"
+  if book.css("a") != nil && book.css("span") != nil && book.css("a").first != nil
+    l_title = book.css("a").first.text
+    l_edition = book.css("span").text
+    if book.css("a")[1] == nil
+      l_print_status = "Out Of Print"
+    else
+      print = book.css("a")[1].text
+      if book.css("a")[2] == nil
+       if print == "W23-D"
+          l_print_status = "Digital"
+        elsif print == "W23"
+          l_print_status = "Physical"
+       end
+      else
+        l_print_status = "Both"
+      end
+    end
+    l_page_url = "http://sjgames.com#{book.css("a").first["href"]}"
+    {:title => l_title, :edition => l_edition, :print_status => l_print_status, :page_url => l_page_url}
   end
-  l_page_url = "http://sjgames.com#{book.css("a").first["href"]}"
-  {:title => l_title, :edition => l_edition, :print_status => l_print_status, :page_url => l_page_url}
 end
 
 Scraper.new
