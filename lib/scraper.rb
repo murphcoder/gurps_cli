@@ -25,8 +25,9 @@ class Scraper
       @series << {:name => series.text, :link => series["href"]}
     end
     book_table = page.css("div.wblist")
-    ## book_table.css("a").text extracts name of topic
-    ## book_table.css("a")["href"] extracts link to book page
+    ## To separate the first block, use: book_table.xpath("//h3[1]/following::*") & book_table.xpath("//br[1]/preceding::*")
+    ## Then, create a loop where "counter" starts at 1 an advances each time. Use the following code.
+    ## book_table.xpath("//h3[1]/following::br[#{counter}]/following::*") & book_table.xpath("//h3[1]/following::br[#{counter+1}]/preceding::*")
     ## Must skip single letter headings
     binding.pry
   end
