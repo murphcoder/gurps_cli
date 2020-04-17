@@ -37,7 +37,9 @@ class Scraper
     ## code.css("a")[1]["title"] determines print status
 
     book = book_table.xpath("//h3[1]/following::*") & book_table.xpath("//br[1]/preceding::*")
-    
+    @books << get_book_data(book)
+    count = 1
+
     binding.pry
   end
 
@@ -46,7 +48,7 @@ end
 def get_book_data(book)
   l_title = book.css("a").first.text
   l_edition = book.css("span").text
-  print = book.css[1]["title"]
+  print = book.css("a")[1].text
   if print == "W23-D"
     l_print_status = "Digital"
   elsif print == "W23" && book.css[2]["title"] == "W23-D"
