@@ -64,9 +64,8 @@ class Scraper
   def self.book_desc(link)
     html = open("http://sjgames.com#{link}")
     book_page = Nokogiri::HTML(html)
-    description = book_page.css("td.pagemainpane")
     desc_array = []
-    description.css("p").each do |para|
+    book_page.css("p").each do |para|
       if !para.text.include?("Available Now at") && !para.text.include?("Always Available") && !para.text.include?("Out Of Print") && !para.text.include?("Contact Us")
         desc_array << para.text.chomp
       end
@@ -74,20 +73,22 @@ class Scraper
     desc_array.join("\n\n")
   end
 
-  def self.series(link)
+  def self.topic(link)
     html = open("http://sjgames.com#{link}")
     page = Nokogiri::HTML(html)
+    topic_array = []
     page.css("div.wblist a").each do |book|
       if !book["href"].include?("warehouse23")
         b_link = book["href"]
         if b_link.include?("sjgames.com")
           b_link_array = b_link.split(".com")
-          puts b_link_array[1]
+          topic_array << b_link_array[1]
         else
-          puts b_link
+          topic_array << b_link
         end
       end
     end
+    topic_array
   end
 
 end
