@@ -36,7 +36,6 @@ class Scraper
       end
       count += 1
     end
-    binding.pry
   end
 
 end

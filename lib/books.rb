@@ -7,5 +7,9 @@ class Books
      hash.each {|symbol, value| self.send(("#{symbol}="),value)}
      @@all << self
   end
+
+  def self.all
+    @@all
+  end
   
 end
