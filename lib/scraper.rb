@@ -74,5 +74,21 @@ class Scraper
     desc_array.join("\n\n")
   end
 
+  def self.series(link)
+    html = open("http://sjgames.com#{link}")
+    page = Nokogiri::HTML(html)
+    page.css("div.wblist a").each do |book|
+      if !book["href"].include?("warehouse23")
+        b_link = book["href"]
+        if b_link.include?("sjgames.com")
+          b_link_array = b_link.split(".com")
+          puts b_link_array[1]
+        else
+          puts b_link
+        end
+      end
+    end
+  end
+
 end
 
