@@ -50,12 +50,12 @@ def get_book_data(book)
       print = book.css("a")[1].text
       if book.css("a")[2] == nil
        if print == "W23-D"
-          l_print_status = "Digital"
+          l_print_status = "Available as a PDF"
         elsif print == "W23"
-          l_print_status = "Physical"
+          l_print_status = "Available in print"
        end
       else
-        l_print_status = "Both"
+        l_print_status = "Available in print, and as a PDF"
       end
     end
     l_page_url = "http://sjgames.com#{book.css("a").first["href"]}"
