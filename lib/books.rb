@@ -19,6 +19,18 @@ class Books
     end
   end
 
+  def self.import_books(array)
+    array.each {|book_hash| self.new(book_hash)}
+  end
+
+  def self.find_by_title(name)
+    self.all.find {|book| book.title == name}}
+  end
+
+  def self.find_by_link(link)
+    self.all.find {|book| book.page_url == link}
+  end
+
   def self.all
     @@all
   end

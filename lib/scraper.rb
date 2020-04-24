@@ -73,22 +73,22 @@ class Scraper
     desc_array.join("\n\n")
   end
 
-  def self.topic(link)
+  def self.topic_or_series(link)
     html = open("http://sjgames.com#{link}")
     page = Nokogiri::HTML(html)
-    topic_array = []
-    page.css("div.wblist a").each do |book|
+    list_array = []
+    page.css("a").each do |book|
       if !book["href"].include?("warehouse23")
         b_link = book["href"]
         if b_link.include?("sjgames.com")
           b_link_array = b_link.split(".com")
-          topic_array << b_link_array[1]
+          list_array << b_link_array[1]
         else
-          topic_array << b_link
+          list_array << b_link
         end
       end
     end
-    topic_array
+    list_array
   end
 
 end
