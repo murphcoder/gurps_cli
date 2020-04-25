@@ -19,7 +19,7 @@ class Books
     end
   end
 
-  def self.import_books(array)
+  def self.import(array)
     array.each {|book_hash| self.new(book_hash)}
   end
 
