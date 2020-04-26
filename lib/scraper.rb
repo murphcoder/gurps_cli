@@ -88,7 +88,7 @@ class Scraper
         end
       end
     end
-    list_array
+    list_array.values_at(list_array.index("/poweredbygurps/")...list_array.length)
   end
 
 end
