@@ -78,17 +78,23 @@ class Scraper
     page = Nokogiri::HTML(html)
     list_array = []
     page.css("a").each do |book|
-      if !book["href"].include?("warehouse23")
-        b_link = book["href"]
-        if b_link.include?("sjgames.com")
-          b_link_array = b_link.split(".com")
-          list_array << b_link_array[1]
-        else
-          list_array << b_link
+      if book["href"] != nil
+        if !book["href"].include?("warehouse23")
+          b_link = book["href"]
+          if b_link.include?("sjgames.com")
+            b_link_array = b_link.split(".com")
+            list_array << b_link_array[1]
+          else
+            list_array << b_link
+          end
         end
       end
     end
-    list_array.values_at(list_array.index("/poweredbygurps/")...list_array.length)
+    if list_array.include?("/poweredbygurps/")
+      list_array.values_at(list_array.index("/poweredbygurps/")...list_array.length)
+    else
+      list_array
+    end
   end
 
 end
