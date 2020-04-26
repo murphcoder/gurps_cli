@@ -22,3 +22,7 @@ class Topics
   end
   
 end
+
+class Series < Topics
+
+end
