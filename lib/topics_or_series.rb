@@ -9,6 +9,10 @@ class Topics
     @books = []
   end
 
+  def self.import(array)
+    array.each {|book_hash| self.new(book_hash)}
+  end
+
   def self.find_by_name(title)
     @@all.find {|topic| topic.name == title}
   end

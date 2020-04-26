@@ -24,7 +24,7 @@ class Books
   end
 
   def self.find_by_title(name)
-    self.all.find {|book| book.title == name}}
+    self.all.find {|book| book.title == name}
   end
 
   def self.find_by_link(link)
