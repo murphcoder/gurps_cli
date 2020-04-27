@@ -20,7 +20,7 @@ class Scraper
     end
     series_table = page.css("table[border=0]").css("tr")[3]
     series_table.css("a").each do |series|
-      if series.text != "GURPS Prime Directive"
+      if series.text != "GURPS Prime Directive" && series.text != "Pyramid"
         @series << {:name => series.text, :link => series["href"]}
       end
     end
@@ -77,24 +77,19 @@ class Scraper
     html = open("http://sjgames.com#{link}")
     page = Nokogiri::HTML(html)
     list_array = []
-    page.css("a").each do |book|
+    if page.css("td.pagemainpane a").length == 0
+      code = "a"
+    else
+      code = "td.pagemainpane a"
+    end
+    page.css(code).each do |book|
       if book["href"] != nil
         if !book["href"].include?("warehouse23")
-          b_link = book["href"]
-          if b_link.include?("sjgames.com")
-            b_link_array = b_link.split(".com")
-            list_array << b_link_array[1]
-          else
-            list_array << b_link
-          end
+          list_array << "/#{book["href"].split("/").last}/"
         end
       end
     end
-    if list_array.include?("/poweredbygurps/")
-      list_array.values_at(list_array.index("/poweredbygurps/")...list_array.length)
-    else
-      list_array
-    end
+    list_array
   end
 
 end

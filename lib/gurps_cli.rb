@@ -25,7 +25,6 @@ module GurpsCli
       Topics.import(main_scrape.topics)
       Series.import(main_scrape.series)
     end
-    binding.pry
     if input == "Topics" || input == "Series"
       start_topics_or_series(input)
     elsif input == "Books"
@@ -61,7 +60,7 @@ module GurpsCli
   def scrape_topic_or_series(choice)
     link_array = Scraper.topic_or_series(choice.link)
     Books.all.each do |book|
-      if link_array.include?(book.page_url)
+      if link_array.include?("/#{book.page_url.split("/").last}/") || choice.link == book.page_url
         choice.books << book
       end
     end
