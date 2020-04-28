@@ -6,6 +6,8 @@ require_relative "../lib/topics_or_series.rb"
 module GurpsCli
   class Error < StandardError; end
   
+## Starts the program by asking the user if they would like a list of books, topics, or series. Then, it scrapes the relevant information and processes their input to deliver the list th3 user chose.
+
   def begin(reboot=false)
     puts "Welcome to the GURPS CLI Book Browser! Would you like to see a list of Topics, Series, or an alphabetical list of all Books?"
     puts ""
@@ -33,6 +35,8 @@ module GurpsCli
     end
   end
 
+##Asks user for a topic or series, then prints a list of books in that same topic or series.
+
   def start_topics_or_series(t_or_s)
     if t_or_s == "Topics"
       word = "Topic"
@@ -57,15 +61,19 @@ module GurpsCli
     end
   end
 
+## Compares the links on a topic or series page to the links already gathered for the various books to determine which books are in the requested topic or series.
+
   def scrape_topic_or_series(choice)
     link_array = Scraper.topic_or_series(choice.link)
     Books.all.each do |book|
-      if link_array.include?("/#{book.page_url.split("/").last}/") || choice.link == book.page_url
+      if link_array.include?(book.page_url.split("/").last) || choice.link == book.page_url
         choice.books << book
       end
     end
     choice.scraped = true
   end
+
+## Asks the user to input a book title, then prints that book description.
 
   def select_book
     puts "Please select a book from the previous list."
@@ -83,6 +91,8 @@ module GurpsCli
       final
     end
   end
+
+## Ends or restarts the program, depending on user input.
 
   def final
     puts "Would you like to Return to the main menu, or End the program?"

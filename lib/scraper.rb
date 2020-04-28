@@ -6,6 +6,8 @@ class Scraper
   
   attr_reader :topics, :series, :books
   
+## Scrapes the main page's list of books, topics, and series. Some topics and series are hard coded to be avoided as they are either redundant or link to outside websites.
+
   def initialize
     @topics = []
     @series = []
@@ -38,6 +40,8 @@ class Scraper
     end
   end
 
+## Gathers title, print status, edition, and description url for an individual book.
+
   def get_book_data(book)
     if book.css("a") != nil && book.css("span") != nil && book.css("a").first != nil
       l_title = book.css("a").first.text
@@ -61,6 +65,8 @@ class Scraper
     end
   end
 
+## Takes in a link, scrapes the book description off of that page, and returns the description.
+
   def self.book_desc(link)
     html = open("http://sjgames.com#{link}")
     book_page = Nokogiri::HTML(html)
@@ -73,19 +79,17 @@ class Scraper
     desc_array.join("\n\n")
   end
 
+## Takes in a link, scrapes all links off of the main body of that page, and returns them in an array.
+
   def self.topic_or_series(link)
     html = open("http://sjgames.com#{link}")
     page = Nokogiri::HTML(html)
     list_array = []
-    if page.css("td.pagemainpane a").length == 0
-      code = "a"
-    else
-      code = "td.pagemainpane a"
-    end
-    page.css(code).each do |book|
+    binding.pry
+    page.css("td")[1].css("a").each do |book|
       if book["href"] != nil
         if !book["href"].include?("warehouse23")
-          list_array << "/#{book["href"].split("/").last}/"
+          list_array << book["href"].split("/").last
         end
       end
     end
