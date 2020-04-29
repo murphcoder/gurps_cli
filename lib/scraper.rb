@@ -85,8 +85,12 @@ class Scraper
     html = open("http://sjgames.com#{link}")
     page = Nokogiri::HTML(html)
     list_array = []
-    binding.pry
-    page.css("td")[1].css("a").each do |book|
+    if page.css("td.pagemainpane a").length != 0
+      code = "td.pagemainpane a"
+    else
+      code = "a"
+    end
+    page.css("a").each do |book|
       if book["href"] != nil
         if !book["href"].include?("warehouse23")
           list_array << book["href"].split("/").last
