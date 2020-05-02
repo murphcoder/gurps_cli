@@ -1,10 +1,6 @@
 # GurpsCli
 
-Test
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/gurps_cli`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+The GURPS CLI gem allows the user to browse through the catalog of books for the roleplaying game GURPS in a text based interface.
 
 ## Installation
 
@@ -24,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+To use this gem as part of an application, simply execute 'Browser.New' in your code. Alternatively, if you would like to inherit the gem's methods into another class, you may do that by inheriting the module 'GurpsCli'.
 
 ## Development
 

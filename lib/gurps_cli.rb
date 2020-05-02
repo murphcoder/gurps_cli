@@ -112,11 +112,11 @@ module GurpsCli
 
 end
 
-class Test
+class Browser
   include GurpsCli
   def initialize
     self.begin
   end
 end
 
-Test.new
+Browser.new
