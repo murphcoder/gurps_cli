@@ -1,7 +1,3 @@
-require 'pry'
-require 'open-uri'
-require 'nokogiri'
-
 class Scraper
   
   attr_reader :topics, :series, :books
